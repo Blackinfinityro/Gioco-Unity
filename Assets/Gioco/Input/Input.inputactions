@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "Input",
+    "maps": [
+        {
+            "name": "Movement",
+            "id": "c657201f-9ce9-4671-a7c1-49e6a698eec2",
+            "actions": [
+                {
+                    "name": "horizontal",
+                    "type": "Value",
+                    "id": "07257d67-4bcb-4e79-bb22-b4f7c07f83d0",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0e58d631-e0c4-419a-90ed-d739c1136a4f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
