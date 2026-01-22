@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Collections;
 using UnityEngine;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 public class Movement : MonoBehaviour
 {
@@ -16,6 +16,7 @@ public class Movement : MonoBehaviour
     int runRequest;
     bool isGrounded;
     bool jumpRequest;
+    float lastSlowDown = float.NegativeInfinity;
     
 
     void Start()
@@ -31,20 +32,20 @@ public class Movement : MonoBehaviour
         animator.SetFloat("Velocità", Mathf.Abs(movimentoGiocatore));
         Flip(movimentoGiocatore);
         isGrounded = Physics2D.OverlapCircle(controlloTerreno.position, 1f, terreno);
-        Debug.Log(isGrounded);
         if (Input.GetButtonDown("Jump") && isGrounded)
             jumpRequest = true;
-        if (Input.GetButtonDown("Run"))
+        if (Input.GetButtonDown("Run")) {
             runRequest = 1;
-            ChangeVelocity();
-        if (Input.GetButtonUp("Run"))
+            Debug.Log("Run");
+        }
+        if (Input.GetButtonUp("Run")) {
             runRequest = 2;
-            ChangeVelocity();
+        }
     }
 
     void FixedUpdate()
     {
-        
+        ChangeVelocity();
         rb.linearVelocity = new Vector2(movimentoGiocatore * velocità, rb.linearVelocity.y);
         if (jumpRequest)
             {
@@ -52,6 +53,10 @@ public class Movement : MonoBehaviour
             
             jumpRequest = false;
             }
+        if (movimentoGiocatore == 0)
+        {
+            velocità = 15;
+        }
     }
     void Flip(float direzione)
 {
@@ -66,15 +71,20 @@ public class Movement : MonoBehaviour
 
 void ChangeVelocity()
     {
-        if (runRequest == 1)
+        if (runRequest == 1 && velocità == 15)
         {
-            velocità += 5;
+            velocità += 20;
+            
         }
         if (runRequest == 2)
         {
-            velocità -= 5;
-        }
+            if (Time.time - lastSlowDown >= 1) {
+                velocità -= 2;
+                velocità = Mathf.Max(15, velocità);
+                lastSlowDown = Time.time;
+            }
+        } else
+            lastSlowDown = float.NegativeInfinity;
     }
-     
 }
 
